@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row">
+      <header class="col text-align: left">
+        <h2>Login</h2>
+      </header>
+      <main class="main">
+        <div class="card w-50">
+          <div class="card-body">
+             <strong class="m-b-3"><i>For enter (admin and 123456) or (guest and 123456)</i></strong><br/>
+             <strong class="m-b-3"><i>For reject enter any value. Min length 3</i></strong>
+            <div class="card-text pt-3 pb-3">
+
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-default">Username</span>
+                </div>
+                <input type="text" [(ngModel)]="username" minlength="3" maxlength="6" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+              </div>
+
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+                </div>
+                <input type="text" [(ngModel)]="password" minlength="3" maxlength="6" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+              </div>
+
+            </div>
+
+            <div class="text-right">
+              <p class="error" *ngIf="error.display">{{ error.message }}</p>
+              <button  class="btn btn-primary" (click)="onLogin()">Login</button>
+            </div>
+          </div>
+        </div>
+      </main>
+  </div>
+</div>
