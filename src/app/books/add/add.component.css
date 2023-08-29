@@ -1,0 +1,11 @@
+.confirm-dialog{
+  width: 500px;
+  height: 500px;
+  position: relative;
+  background-color: white;
+  z-index: 100;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+

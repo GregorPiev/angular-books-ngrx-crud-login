@@ -1,10 +1,9 @@
-<div class="screen">&nbsp;</div>
 <div class="confirm-dialog">
-  <div mat-dialog-title>
+  <div mat-dialog-title class="wrapper-title">
     <h2>{{ titleConfirm }}</h2>
   </div>
 
-  <div mat-dialog-content>
+  <div mat-dialog-content class="wrapper-content">
     <p>{{ messageConfirm }}</p>
 
     <div class="container">
@@ -24,13 +23,12 @@
         <input type="text" [(ngModel)]="bookForm.cost" class="form-control" id="txtCost">
       </div>
 
-      <a type="button" class="btn btn-info mr-5" [routerLink]="['/books']">Home</a>
-      <button type="button" class="btn btn-dark" (click)="save()">Create</button>
+
     </div>
 
   </div>
-  <div mat-dialog-actions class="buttons">
-    <button mat-button class="btn btn-outline-danger mr-3" (click)="onConfirm()">Confirm</button>
-    <button mat-button class="btn btn-outline-warning" (click)="onCancel()">Cancel</button>
+  <div mat-dialog-actions class="buttons wrapper-buttons text-right">
+    <a type="button" class="btn btn-info mr-5" (click)="onCancel()">Home</a>
+    <button type="button" class="btn btn-dark mr-3" (click)="save()">Create</button>
   </div>
 </div>
