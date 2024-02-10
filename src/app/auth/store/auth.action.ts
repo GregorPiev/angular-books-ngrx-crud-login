@@ -17,3 +17,8 @@ export const loginFailure = createAction(
 export const logout = createAction(
   '[Auth] Logout'
 );
+
+export const refreshApp = createAction(
+  '[Auth] Refresh',
+  props<{token: string, user: string }>()
+)

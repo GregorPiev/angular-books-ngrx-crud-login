@@ -10,8 +10,15 @@
         <mat-paginator MatPaginator [pageSizeOptions]="[8, 16, 32]" showFirstLastButtons></mat-paginator>
       </div>
 
-      <mat-table class="mat-table-custom" [dataSource]="dataSource" matSort>
+      <mat-table class="mat-table-custom" [dataSource]="dataSource" matSort multiTemplateDataRows>
         <!-- ID Column -->
+        <ng-container matColumnDef="toggle">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let item">
+            <mat-icon>arrow_downward</mat-icon>
+          </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="id">
           <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
           <mat-cell class="mat-cell-custom" title="{{ item.id }}" *matCellDef="let item">{{ item.id }}</mat-cell>
@@ -26,8 +33,7 @@
         <!-- Author Column -->
         <ng-container matColumnDef="author">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Author</mat-header-cell>
-          <mat-cell class="mat-cell-custom" title="{{ item.author }}" *matCellDef="let item">{{ item.author
-            }}</mat-cell>
+          <mat-cell class="mat-cell-custom" title="{{ item.author }}" *matCellDef="let item">{{item.author}}</mat-cell>
         </ng-container>
 
         <!-- Cost Column -->
@@ -49,8 +55,22 @@
           </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="description">          
+          <mat-cell *matCellDef="let item" [attr.colspan]="displayedColumns.length">
+            <div class="example-element-detail"
+                 [ngStyle]="{'display':item == expandedElement ? 'block': 'none'}"
+                 *ngIf="item.description">
+                 {{item.description}}
+            </div>
+          </mat-cell>
+        </ng-container>
+
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
+                 [class.example-expanded-row]="expandedElement === row"
+                 (click)="expandedElement = row"></mat-row>
+
+        <mat-row *matRowDef="let row; columns: ['description']" class="example-detail-row"></mat-row>
       </mat-table>
     </div>
 
@@ -61,6 +81,7 @@
 
     </ng-template>
   </div>
+</div>
 
   <!-- Modal -->
   <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

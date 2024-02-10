@@ -8,7 +8,8 @@ import { Books } from '../store/books';
 import { MatDialog } from '@angular/material/dialog';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatIcon } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { selectAppState } from 'src/app/shared/store/app.selector';
 import { selectBooks } from '../store/books.selector';
@@ -24,13 +25,16 @@ declare var $: any;
 export class HomeComponent implements OnInit {
   books$!: Observable<Books[]>;
   deleteModal: any;
-  idToDelete: number = 0;
+  idToDelete: number = 0;  
 
-  displayedColumns: string[] =['id','name','author','cost','actions'];
+  expandedElement: any = null;
+  element: any = null;
+
+  displayedColumns: string[] = ['toggle','id', 'name', 'author', 'cost', 'actions'];
+  displayedColumns2: string[] = ['description'];
   dataSource!: MatTableDataSource<Books>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
 
   constructor(
     private store: Store,
@@ -44,8 +48,7 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       // this.books$ = this.store.pipe(select(selectBooks));
 
-      this.store.pipe(select(selectBooks)).subscribe((books)=>{
-        console.log('Books:', books);
+      this.store.pipe(select(selectBooks)).subscribe((books)=>{      
         if(books.length){
           this.dataSource = new MatTableDataSource<Books>(books);
           this.dataSource.paginator = this.paginator;
@@ -53,10 +56,10 @@ export class HomeComponent implements OnInit {
         }
       });
     }, 3000);
-  }
+  }  
 
   addNewBook() {
-const dialogRef = this.dialog.open(AddComponent, {
+    const dialogRef = this.dialog.open(AddComponent, {
       data: { title: 'Adding New Book Dialog', message: 'Are you sure you want to proceed?' }
     });
 
