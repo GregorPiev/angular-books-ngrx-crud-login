@@ -27,5 +27,9 @@ export const authReducer = createReducer(
   ),
   on(
     AuthActions.logout, () => initialState
+  ),
+  on(
+    AuthActions.refreshApp,
+    (state, { token, user }) => ({...state, token, user})
   )
 );

@@ -3,4 +3,5 @@ export interface Books {
   name: string;
   author: string;
   cost: number | string;
+  description: string | null;
 }

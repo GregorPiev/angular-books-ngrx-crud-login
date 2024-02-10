@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { Books } from "./books";
-import { BooksFetchAPISuccess, deleteBookAPISuccess, saveNewBookAPISuccess, updateBookAPISuccess } from "./books.action";
+import { BooksFetchAPISuccess, deleteBookAPISuccess, exit, saveNewBookAPISuccess, updateBookAPISuccess } from "./books.action";
 import { state } from "@angular/animations";
 
 export const initialState: ReadonlyArray<Books> = [];
@@ -26,5 +26,6 @@ export const booksReducer = createReducer(
   on(deleteBookAPISuccess,(state,{id})=>{
     let newState = state.filter((_)=>_.id !=id);
     return newState;
-  })
+  }),
+  on(exit, () => initialState)
 );

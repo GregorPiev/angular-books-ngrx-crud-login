@@ -54,4 +54,16 @@
   }
 }
 
+::ng-deep mat-row, mat-footer-row {
+  min-height: 0px !important;
+  background-color: white !important;
+  margin: 6px 0;
+  border-top-width: 0;
+  border-bottom-width: 0;
+}
+
+::ng-deep mat-table {
+    background-color: #e2e2e2;
+}
+
 

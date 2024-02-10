@@ -39,3 +39,8 @@ export const deleteBookAPISuccess = createAction(
   '[Book API] delete book api success',
   props<{id: number}>()
 );
+
+export const exit = createAction(
+  "[Book API] down till initial values"
+)
+

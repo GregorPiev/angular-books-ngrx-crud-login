@@ -4,7 +4,7 @@ import { BooksRoutingModule } from './books-routing.module';
 import { CommonModule } from '@angular/common';
 import { EditComponent } from './edit/edit.component';
 import { EffectsModule } from '@ngrx/effects';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { MaterialModule } from '../shared/material/material.module';
 import { NgModule } from '@angular/core';
@@ -18,12 +18,12 @@ import { booksReducer } from './store/books.reducer';
     EditComponent
   ],
   imports: [
-    CommonModule,
+    CommonModule,   
     FormsModule,
+    ReactiveFormsModule,
     BooksRoutingModule,
     StoreModule.forFeature('mybooks', booksReducer),
     EffectsModule.forFeature([BooksEffect]),
-
     MaterialModule
   ]
 })

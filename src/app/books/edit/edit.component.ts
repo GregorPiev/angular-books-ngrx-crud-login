@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import { Appstate } from 'src/app/shared/store/appstate';
@@ -8,30 +8,39 @@ import { invokeUpdateBookAPI } from '../store/books.action';
 import { selectAppState } from 'src/app/shared/store/app.selector';
 import { selectBookById } from '../store/books.selector';
 import { setAPIStatus } from '../../shared/store/app.action';
-import { switchMap } from 'rxjs';
+import { Subscribable, Subscription, switchMap } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css']
 })
-export class EditComponent implements OnInit {
+export class EditComponent implements OnInit, OnDestroy {
 
-  bookForm: Books = {
-    id: 0,
-    author: '',
-    name: '',
-    cost: 0,
-  }
+  bookForm!: FormGroup;
+  dataSubscription!: Subscription;
+  upateDataSubscription!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private store: Store,
-    private appStore: Store<Appstate>
+    private appStore: Store<Appstate>,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
+
+    this.bookForm = this.fb.group({
+      id: [0],
+      name: ['', [Validators.required, Validators.minLength(5)]],
+      author: ['', [Validators.required, Validators.minLength(5)]],
+      cost: [0, [Validators.required]],
+      description: ['', [Validators.required, Validators.minLength(25)]]
+    });
+
+
     let fetchData$ = this.route.paramMap.pipe(
       switchMap((param) => {
         const id = Number(param.get('id'));
@@ -39,9 +48,9 @@ export class EditComponent implements OnInit {
       })
     );
 
-    fetchData$.subscribe((data) => {
-      if (data) {
-        this.bookForm = { ...data };
+    this.dataSubscription = fetchData$.subscribe((data: Books | null) => {
+      if (data) {        
+        this.bookForm.setValue(data);
       }
       else {
         this.router.navigate(['/books']);
@@ -49,13 +58,13 @@ export class EditComponent implements OnInit {
     })
   }
 
-  update() {
+  update() {    
     this.store.dispatch(
-      invokeUpdateBookAPI({ updateBook: { ...this.bookForm } })
+      invokeUpdateBookAPI({ updateBook: { ...this.bookForm.value } })
     );
 
     let apiStatus$ = this.appStore.pipe(select(selectAppState));
-    apiStatus$.subscribe((apState) => {
+    this.upateDataSubscription = apiStatus$.subscribe((apState) => {
       if (apState.apiStatus == 'success') {
         this.appStore.dispatch(
           setAPIStatus({
@@ -65,5 +74,25 @@ export class EditComponent implements OnInit {
         this.router.navigate(['/books']);
       }
     });
+
+
+  }
+
+  scrollTo(el: Element): void {
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  scrollToError(): void {
+    const firstElementWithError = document.querySelector('.ng-invalid[formControlName]');
+    if (firstElementWithError) {
+      this.scrollTo(firstElementWithError);
+    }
+  }
+
+  ngOnDestroy() {
+    this.dataSubscription.unsubscribe();
+    this.upateDataSubscription.unsubscribe();
   }
 }
