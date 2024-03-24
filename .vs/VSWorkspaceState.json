@@ -1,7 +1,14 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src\\app",
+    "\\src\\app\\books",
+    "\\src\\app\\books\\add",
+    "\\src\\app\\books\\home",
+    "\\src\\app\\books\\store",
+    "\\src\\app\\shared",
+    "\\src\\app\\shared\\material"
   ],
-  "SelectedNode": "\\C:\\Users\\Administrator\\Source\\Repos\\angular-books-ngrx-crud-login",
+  "SelectedNode": "\\package.json",
   "PreviewInSolutionExplorer": false
 }
